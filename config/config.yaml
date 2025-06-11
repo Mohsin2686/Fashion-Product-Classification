@@ -12,3 +12,24 @@ prepare_base_model:
   root_dir: artifacts/prepare_base_model
   base_model_path: artifacts/prepare_base_model/base_model.h5
   updated_base_model_path: artifacts/prepare_base_model/base_model_updated.h5
+
+prepare_dataset:
+  root_dir: artifacts/data_preparation
+  csv_file_path: artifacts/data_ingestion/styles.csv
+  images_dir: artifacts/data_ingestion/images
+  target_dir: artifacts/data_preparation/top10_classes
+  label_col: articleType
+  trainset_size: 0.8
+  valset_size: 0.1
+  testset_size: 0.1
+  max_images: 1000
+
+
+training:
+  root_dir: artifacts/training
+  trained_model_path: artifacts/training/model.h5
+  target_file_path: artifacts/data_ingestion/styles.csv
+  csv_file_path: artifacts/data_ingestion/styles.csv
+  images_dir: artifacts/data_ingestion/images
+  target_dir: artifacts/training/top10_classes
+  label_col: articleType

@@ -2,7 +2,9 @@ import os
 from cnnClassifier.constants import *
 from cnnClassifier.utils.common import read_yaml, create_directories
 from cnnClassifier.entity.config_entity import (DataIngestionConfig,
-                                                PrepareBaseModelConfig)
+                                                PrepareBaseModelConfig,
+                                                PrepareDatasetConfig,
+                                                TrainingConfig)
 
 class ConfigurationManager:
     def __init__(
@@ -31,6 +33,28 @@ class ConfigurationManager:
 
         return data_ingestion_config
     
+    def get_prepare_dataset_config(self) -> PrepareDatasetConfig:
+        config = self.config.prepare_dataset
+        
+        create_directories([config.root_dir])
+
+        prepare_dataset_config = PrepareDatasetConfig(
+            root_dir=Path(config.root_dir),
+            csv_file_path=Path(config.csv_file_path),
+            images_dir=Path(config.images_dir),
+            target_dir=Path(config.target_dir),
+            label_col=config.label_col,
+            trainset_size=config.trainset_size,
+            valset_size=config.valset_size,
+            testset_size=config.testset_size,
+            max_images= config.max_images,
+            params_num_classes=self.params.CLASSES,
+            params_image_size=self.params.IMAGE_SIZE,
+            params_batch_size=self.params.BATCH_SIZE
+        )
+
+        return prepare_dataset_config
+    
     def get_prepare_base_model_config(self) -> PrepareBaseModelConfig:
         config = self.config.prepare_base_model
         
@@ -45,6 +69,30 @@ class ConfigurationManager:
             params_include_top=self.params.INCLUDE_TOP,
             params_weights=self.params.WEIGHTS,
             params_classes=self.params.CLASSES
+            
         )
 
         return prepare_base_model_config
+    
+    def get_training_config(self) -> TrainingConfig:
+        training = self.config.training
+        prepare_base_model = self.config.prepare_base_model
+        params = self.params
+        training_data = self.config.data_ingestion.unzip_dir
+        create_directories([
+            Path(training.root_dir)
+        ])
+
+        training_config = TrainingConfig(
+            root_dir=Path(training.root_dir),
+            trained_model_path=Path(training.trained_model_path),
+            updated_base_model_path=Path(prepare_base_model.updated_base_model_path),
+            params_epochs=params.EPOCHS,
+            params_batch_size=params.BATCH_SIZE,
+            params_is_augmentation=params.AUGMENTATION,
+            params_image_size=params.IMAGE_SIZE,
+            params_learning_rate=params.LEARNING_RATE,
+            params_num_classes=self.params.CLASSES
+        )
+
+        return training_config

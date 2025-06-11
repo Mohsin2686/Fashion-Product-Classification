@@ -1,5 +1,5 @@
 AUGMENTATION: True
-IMAGE_SIZE: [224, 224, 3] # as per EfficientNetB0 model
+IMAGE_SIZE: [150,150,3] # as per EfficientNetB0 model
 BATCH_SIZE: 16
 INCLUDE_TOP: False
 EPOCHS: 1

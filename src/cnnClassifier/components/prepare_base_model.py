@@ -4,6 +4,7 @@ from zipfile import ZipFile
 import tensorflow as tf
 from pathlib import Path
 from cnnClassifier.entity.config_entity import PrepareBaseModelConfig
+import tensorflow.python.keras.models as Model
                                                 
 
 
@@ -69,6 +70,6 @@ class PrepareBaseModel:
 
 
     @staticmethod
-    def save_model(path: Path, model: tf.keras.Model):
+    def save_model(path: Path, model: Model):
         model.save(path)
 
